@@ -98,7 +98,7 @@ class Run(object):
             connection.login()
             # connection.cwd(root)
         except Exception as exp:
-            print ("Couldn't create the connections for thread {}".format(exp))
+            print(("Couldn't create the connections for thread {}".format(exp)))
         else:
             # file_names = listdir(self.server_path)
             fw = walker.ftp_walker(connection, self.resume)
@@ -116,7 +116,7 @@ class Run(object):
                         # self.all_path.put((_path, files))
                         # with csv_writer_lock:
                         csv_writer.writerow([_path] + files)
-                        print("Path: {} <-------> dirs: {}".format(_path, dirs))
+                        print(("Path: {} <-------> dirs: {}".format(_path, dirs)))
                 except Exception as exc:
                     print(exc)
                 else:
@@ -162,7 +162,7 @@ class Run(object):
             base = ['/']
         else:
             root, (base, leadings) = args
-        print ('---' * 5, datetime.now(), '{}'.format(root), '---' * 5)
+        print(('---' * 5, datetime.now(), '{}'.format(root), '---' * 5))
         try:
             # base, leadings = self.find_leading(root)
             # print("base and leadings for {} --> {}, {}".format(root, base, leadings))

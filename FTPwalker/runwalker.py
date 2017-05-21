@@ -56,21 +56,21 @@ class ftpwalker:
         self.url = url
         platform_name = checkplatform.check()
         if daemon:
-            print("Platform {}".format(platform_name))
+            print(("Platform {}".format(platform_name)))
             if platform_name in {"Linux", "Mac"}:
                 from daemons.unixdaemon import Daemon as daemon_obj
                 self.daemon_obj = daemon_obj()
                 try:
                     self.daemon_obj.stop()
                 except Exception as exc:
-                    print("Exception on stopping the daemon:  {}".format(exc))
+                    print(("Exception on stopping the daemon:  {}".format(exc)))
             else:
                 from daemons import windaemon as daemon_obj
                 self.daemon_obj = daemon_obj
                 try:
                     self.daemon_obj.stop()
                 except Exception as exc:
-                    print("Exception:  {}".format(exc))
+                    print(("Exception:  {}".format(exc)))
         self.daemon = daemon
         try:
             home = path.expanduser("~")
@@ -115,11 +115,11 @@ class ftpwalker:
 
         """
         while True:
-            answer = input("""It seems that you've already
+            answer = eval(input("""It seems that you've already
 started traversing a server with this name.
-Do you want to continue with current one(Y/N)?: """)
+Do you want to continue with current one(Y/N)?: """))
             if answer.strip().lower() in {'y', 'yes'}:
-                print("Start resuming the {} server...".format(self.name))
+                print(("Start resuming the {} server...".format(self.name)))
                 if self.daemon:
                     self.daemon_obj.start(self.m_walker.Process_dispatcher, True)
                 else:

@@ -88,7 +88,7 @@ def instart(cls, name, display_name=None, stay_alive=True):
         )
         print('Start ok')
     except Exception as x:
-        print(str(x))
+        print((str(x)))
 
 
 if __name__ == '__main__':

@@ -133,7 +133,7 @@ class Daemon:
                     action = 'start'
                     pid = None
                 else:
-                    print(str(exc))
+                    print((str(exc)))
                     sys.exit(1)
         elif 'start' == action:
             if pid:

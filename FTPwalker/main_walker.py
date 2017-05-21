@@ -75,8 +75,8 @@ class main_walker:
                     print([exc, p])
                 else:
                     all_leadings.setdefault(base, set()).add(p)
-            for k, v in all_leadings.items():
-                print("for --> {} <-- resume from --> {} <--".format(k, {ospath.dirname(i) for i in v}))
+            for k, v in list(all_leadings.items()):
+                print(("for --> {} <-- resume from --> {} <--".format(k, {ospath.dirname(i) for i in v})))
             # all_leadings = self.run_object.find_all_leadings(leadings)
         else:
             leadings = self.find_leading_dirs(self.root)
@@ -85,26 +85,26 @@ class main_walker:
                 return
             while len(leadings) <= 1:
                     top = leadings[0]
-                    print("Just one leading founded({}). Continue finding...".format(top))
+                    print(("Just one leading founded({}). Continue finding...".format(top)))
                     leadings = self.find_leading_dirs(top)
 
-            print ("Root's leading directories are: ", leadings)
+            print(("Root's leading directories are: ", leadings))
 
             all_leadings = self.run_object.find_all_leadings(leadings)
-            lenght_of_subdirectories = sum(len(dirs) for _, (_, dirs) in all_leadings.items())
-            print("{} subdirectories founded".format(lenght_of_subdirectories))
-            all_lead_names = [i.replace('/', '#')for _, (_, leads) in all_leadings.items() for i in leads]
+            lenght_of_subdirectories = sum(len(dirs) for _, (_, dirs) in list(all_leadings.items()))
+            print(("{} subdirectories founded".format(lenght_of_subdirectories)))
+            all_lead_names = [i.replace('/', '#')for _, (_, leads) in list(all_leadings.items()) for i in leads]
             with open(self.meta_path, 'w') as f:
                 json.dump({'subdirectory_number': lenght_of_subdirectories,
                            'traversed_subs': [],
                            'all_lead_names': all_lead_names}, f)
         try:
             pool = Pool()
-            pool.map(self.run_object.main_run, all_leadings.items())
+            pool.map(self.run_object.main_run, list(all_leadings.items()))
         except Exception as exp:
             raise
         else:
-            print ('***' * 5, "finish traversing", '***' * 5)
+            print(('***' * 5, "finish traversing", '***' * 5))
             with open(self.meta_path) as f:
                 meta = json.load(f)
                 traversed_subs = meta['traversed_subs']
@@ -119,7 +119,7 @@ class main_walker:
                             main_dict[path_] = files
                 self.create_json(main_dict, self.server_name)
             elif lenght_of_subdirectories:
-                print("Traversing isn't complete. Start resuming the {} server...".format(self.server_name))
+                print(("Traversing isn't complete. Start resuming the {} server...".format(self.server_name)))
                 self.Process_dispatcher(resume)
 
     def find_latest_leadings(self):
@@ -130,7 +130,7 @@ class main_walker:
             exist_files = {i.split('.')[0] for i in listdir(self.server_path) if i not in {'leading_ftpwalker.csv', self.server_name + '.json'}}
         with open(ospath.join(self.server_path, 'leading_ftpwalker.csv')) as f:
             # Dirs that were contain one directory and have been preserved in leading_ftpwalker file
-            ommited_dirs = ospath.join(*next(zip(*csv.reader(f))))
+            ommited_dirs = ospath.join(*next(list(zip(*csv.reader(f)))))
         for file_name in exist_files:
             # check if the directory is not traversed already
             if file_name not in traversed_subs:
